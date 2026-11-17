@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'fr.fabtontedemouton.fabmatrix'
+    namespace 'fr.fabtontedemouton.fab2027'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'fr.fabtontedemouton.fabmatrix'
+        applicationId 'fr.fabtontedemouton.fab2027'
         minSdk 23
         targetSdk 35
         versionCode 1
