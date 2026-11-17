@@ -1,0 +1,17 @@
+{
+  "name": "FAB' MATRIX 2027",
+  "short_name": "FAB' 2027",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050806",
+  "theme_color": "#050806",
+  "description": "Suivi de saison de tonte et préparation hors saison",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

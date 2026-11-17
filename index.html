@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050806">
+  <meta name="description" content="Suivi simple de la saison de tonte 2027 et préparation hors saison.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>FAB' MATRIX 2027</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">F</span><div><div class="brand-name">FAB' MATRIX <b>2027</b></div><div class="brand-sub">SUIVI DE SAISON • TONTE & PRÉPARATION</div></div></div>
+    <div class="top-actions">
+      <span class="offline" id="offlineBadge">● HORS LIGNE</span>
+      <div class="menu-wrap">
+        <button class="menu-button" id="menuButton" aria-label="Ouvrir le menu" aria-expanded="false">⋮</button>
+        <div class="menu-panel hidden" id="menuPanel">
+          <button class="menu-item active" data-view="season">🐑 &nbsp; Tableau de saison</button>
+          <button class="menu-item" data-view="prep">💪 &nbsp; Préparation hors saison</button>
+          <div class="menu-separator"></div>
+          <button class="menu-item" id="menuExport">↓ &nbsp; Exporter mes données (CSV)</button>
+          <div class="menu-note">FAB' MATRIX 2027</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="seasonView" class="view">
+      <div class="hero">
+        <div class="eyebrow">OBJECTIF 2027</div>
+        <div class="hero-number"><span id="totalSheep">0</span><small> / 25 000</small></div>
+        <div class="progress"><div id="progressFill"></div></div>
+        <div class="progress-meta"><span id="progressPercent">0 %</span><span id="remaining">25 000 restants</span></div>
+        <div class="mountain-wrap">
+          <svg id="mountain" viewBox="0 0 640 190" role="img" aria-label="Progression de la saison vers l'objectif">
+            <defs><linearGradient id="mountainFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#39ff70" stop-opacity=".35"/><stop offset="1" stop-color="#39ff70" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 160 L80 125 L145 143 L230 68 L285 104 L360 35 L420 83 L500 55 L570 100 L640 48 L640 190 L0 190Z" fill="url(#mountainFill)" stroke="#39ff70" stroke-width="2"/>
+            <path d="M0 160 L80 125 L145 143 L230 68 L285 104 L360 35 L420 83 L500 55 L570 100 L640 48" fill="none" stroke="#39ff70" stroke-width="2"/>
+            <g id="sheepMarker" transform="translate(8 138)"><text font-size="27">🐑</text></g>
+            <text x="12" y="183" fill="#8aa895" font-size="10">DÉPART</text><text x="628" y="183" fill="#8aa895" font-size="10" text-anchor="end">25 000</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat"><span class="stat-label">CETTE SEMAINE</span><strong id="weekTotal">0</strong><small>moutons</small></article>
+        <article class="stat"><span class="stat-label">RECORD JOURNALIER</span><strong id="record">0</strong><small>moutons</small></article>
+        <article class="stat"><span class="stat-label">JOURS SAISIS</span><strong id="daysCount">0</strong><small>journées</small></article>
+      </div>
+
+      <section class="panel">
+        <div class="section-heading"><div><div class="eyebrow">RAPPORT RAPIDE</div><h2>Ma journée</h2></div><span class="time-hint">≈ 2 MIN</span></div>
+        <form id="dailyForm">
+          <label for="entryDate">Date</label>
+          <input id="entryDate" type="date" required>
+          <label for="sheepCount">Nombre de moutons tondus</label>
+          <input id="sheepCount" type="number" min="0" max="1000" inputmode="numeric" placeholder="Ex. 135" required>
+          <div class="two-cols">
+            <div><label for="physical">État physique</label><select id="physical"><option>En forme</option><option correct>Correct</option><option>Fatigué</option><option>Très fatigué</option></select></div>
+            <div><label for="quality">Qualité de tonte</label><select id="quality"><option>Très bonne</option><option>Bonne</option><option>Moyenne</option><option>À travailler</option></select></div>
+          </div>
+          <label for="note">Note (facultatif)</label>
+          <input id="note" type="text" maxlength="100" placeholder="Un point à retenir…">
+          <button class="primary" type="submit">ENREGISTRER MA JOURNÉE <span>↗</span></button>
+          <p class="form-message" id="formMessage" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="panel">
+        <button class="text-button hidden" id="exportBtn" type="button">EXPORTER CSV</button>
+        <div class="section-heading"><div><div class="eyebrow">HISTORIQUE</div><h2>Dernières journées</h2></div><span class="time-hint">SAUVEGARDE LOCALE</span></div>
+        <div id="history" class="history"><p class="empty">Aucune journée enregistrée pour le moment.</p></div>
+      </section>
+    </section>
+
+    <section id="prepView" class="view hidden">
+      <div class="prep-hero"><div class="eyebrow">PRÉPARATION HORS SAISON</div><h1>Construire la forme.<br><span>Garder l'équilibre.</span></h1><p>Un suivi léger pour arriver prêt à la prochaine saison, sans transformer ça en corvée.</p></div>
+      <section class="panel">
+        <div class="section-heading"><div><div class="eyebrow">MOUVEMENT</div><h2>Mes 3 séances</h2></div><span class="time-hint">PAR SEMAINE</span></div>
+        <p class="muted">Coche chaque séance réalisée. Tu peux répartir les jours comme tu veux.</p>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-exercise="0"><span><b>Séance 1</b><small>Renforcement général</small></span></label>
+          <label class="check-row"><input type="checkbox" data-exercise="1"><span><b>Séance 2</b><small>Cardio & endurance</small></span></label>
+          <label class="check-row"><input type="checkbox" data-exercise="2"><span><b>Séance 3</b><small>Mobilité & gainage</small></span></label>
+        </div>
+        <div class="week-progress"><div class="progress"><div id="exerciseFill"></div></div><strong id="exerciseCount">0 / 3</strong></div>
+      </section>
+      <section class="panel">
+        <div class="section-heading"><div><div class="eyebrow">ÉQUILIBRE ALIMENTAIRE</div><h2>Mes habitudes</h2></div><span class="time-hint">AU QUOTIDIEN</span></div>
+        <p class="muted">Pas de calories à compter. Juste des repères simples.</p>
+        <div class="check-list food-list">
+          <label class="check-row"><input type="checkbox" data-food="0"><span><b>Repas équilibrés</b><small>Une source de protéines, des légumes et un féculent adapté</small></span></label>
+          <label class="check-row"><input type="checkbox" data-food="1"><span><b>Fruits & légumes</b><small>J'en ai intégré dans ma journée</small></span></label>
+          <label class="check-row"><input type="checkbox" data-food="2"><span><b>Hydratation</b><small>J'ai bu régulièrement dans la journée</small></span></label>
+          <label class="check-row"><input type="checkbox" data-food="3"><span><b>Repas pris tranquillement</b><small>Sans sauter de repas ni chercher la perfection</small></span></label>
+        </div>
+        <div class="week-progress"><span class="muted">Habitudes cochées aujourd'hui</span><strong id="foodCount">0 / 4</strong></div>
+      </section>
+      <section class="panel">
+        <div class="eyebrow">BILAN DE LA SEMAINE</div>
+        <h2>La régularité avant tout.</h2>
+        <p class="muted">Vise la constance, pas la semaine parfaite. Tu peux remettre les compteurs à jour chaque lundi.</p>
+        <button class="secondary" id="resetWeek">DÉMARRER UNE NOUVELLE SEMAINE</button>
+        <p class="form-message" id="prepMessage" aria-live="polite"></p>
+      </section>
+    </section>
+  </main>
+  <footer>FAB' MATRIX 2027 <span>•</span> TES DONNÉES RESTENT SUR TON TÉLÉPHONE</footer>
+  <script src="app.js"></script>
+</body>
+</html>
